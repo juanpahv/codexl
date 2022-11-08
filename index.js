@@ -36,7 +36,14 @@ const exec = require('child_process').exec;
 // console.log(dialog);
 function execute(command, callback) {
     exec(command, (error, stdout, stderr) => { 
-        callback(stdout); 
+        if(stdout){
+            callback(stdout); 
+        }else if (stderr){
+            callback(stderr);
+        }else{
+            callback(error);
+        }
+        
     });
 };
 
@@ -46,15 +53,8 @@ document.getElementById('buttonCompile').addEventListener('click',(e)=>{
         ipcRenderer.invoke("showDialog", "save file before compile")
         return
     }
-    const filename = filePath.replace(/^.*[\\\/]/, '');
-    console.log(filePath.replace(filename,''));
-    execute('cd '.concat(filePath.replace(filename,'')),(output)=>{});
-    //TODO deharde-code for java
-    execute('ping google.com', (output) => {
-        console.log(output);
-    });
-    execute('java '.concat(filename),(output)=>{
-        console.log(output);
+    execute('java '.concat(filePath),(output)=>{
+        document.getElementById('output').textContent = output;
     });
 });
 
