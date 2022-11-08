@@ -26,14 +26,12 @@ var editor;
     });
 })();
 
-// const electron = require('electron')
+
 const { ipcRenderer } = require("electron");
 var filePath
 const fs = require('fs');
 const exec = require('child_process').exec;
-// const dialog = electron.remote.dialog;
 
-// console.log(dialog);
 function execute(command, callback) {
     exec(command, (error, stdout, stderr) => { 
         if(stdout){
@@ -47,6 +45,9 @@ function execute(command, callback) {
     });
 };
 
+document.getElementById('cmbLanguageSelector').addEventListener('change',(e)=>{
+    console.log(document.getElementById('cmbLanguageSelector').options[document.getElementById('cmbLanguageSelector').selectedIndex].text);
+});
 
 document.getElementById('buttonCompile').addEventListener('click',(e)=>{
     if(!filePath){
@@ -60,4 +61,5 @@ document.getElementById('buttonCompile').addEventListener('click',(e)=>{
 
 document.getElementById('SaveFile').addEventListener('click', async (e) => {
     filePath = await ipcRenderer.invoke("showSaveDialog", editor.getModel().getValue(), 'Java','java');
+    filePath = await ipcRenderer.invoke("showSaveDialog", editor.getModel().getValue(), 'JavaScript','js');
 });

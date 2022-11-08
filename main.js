@@ -5,7 +5,7 @@ const fs = require('fs');
 
 let mainWindow;
 
-ipcMain.handle("showSaveDialog", async (e, message, fileType, fileExtension) => {
+ipcMain.handle("showSaveDialog", async (e, content, fileType, fileExtension) => {
 	const savedDialog = dialog.showSaveDialog({
         title: 'Select the File Path to save',
         defaultPath: path.join('C:/Users/%USERPROFILE%/*.',fileExtension),
@@ -20,7 +20,7 @@ ipcMain.handle("showSaveDialog", async (e, message, fileType, fileExtension) => 
         if (!file.canceled) {
             console.log(file.filePath.toString());
             fs.writeFile(file.filePath.toString(), 
-                         message, function (err) {
+                         content, function (err) {
                 if (err) throw err;
             });
         }
