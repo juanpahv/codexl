@@ -31,6 +31,27 @@ const { ipcRenderer } = require("electron");
 var filePath
 const fs = require('fs');
 const exec = require('child_process').exec;
+const languageToFileExtensionMap ={
+    'Java' : {
+        language : 'java',
+        fileExtension : 'java',
+        executable : 'java'
+        //TODO initial value
+    },
+    'JavaScript' : {
+        language : 'javascript',
+        fileExtension : 'js',
+        executable : 'node'
+        //TODO initial value
+    },
+    'HTML' : {
+        language : 'html',
+        fileExtension : 'html',
+        executable : undefined
+        //TODO initial value
+    }
+};
+
 
 function execute(command, callback) {
     exec(command, (error, stdout, stderr) => { 
@@ -45,21 +66,34 @@ function execute(command, callback) {
     });
 };
 
+function getSelectedLanguage (){
+    return document.getElementById('cmbLanguageSelector').options[document.getElementById('cmbLanguageSelector').selectedIndex].value;
+}
+
 document.getElementById('cmbLanguageSelector').addEventListener('change',(e)=>{
-    console.log(document.getElementById('cmbLanguageSelector').options[document.getElementById('cmbLanguageSelector').selectedIndex].text);
+    const selectedLanguage = getSelectedLanguage();
+    filePath = undefined;
+    // editor.setModelLanguage(languageToFileExtensionMap[selectedLanguage].language);
 });
 
 document.getElementById('buttonCompile').addEventListener('click',(e)=>{
+    const selectedLanguage = getSelectedLanguage();
+    if (selectedLanguage == 'HTML'){
+        document.getElementById('output').innerHTML= editor.getModel().getValue();
+        return;
+    }
     if(!filePath){
         ipcRenderer.invoke("showDialog", "save file before compile")
         return
     }
-    execute('java '.concat(filePath),(output)=>{
+    execute(languageToFileExtensionMap[selectedLanguage].executable.concat(' ').concat(filePath),(output)=>{
         document.getElementById('output').textContent = output;
     });
+    
 });
 
 document.getElementById('SaveFile').addEventListener('click', async (e) => {
-    filePath = await ipcRenderer.invoke("showSaveDialog", editor.getModel().getValue(), 'Java','java');
-    filePath = await ipcRenderer.invoke("showSaveDialog", editor.getModel().getValue(), 'JavaScript','js');
+    const selectedLanguage = getSelectedLanguage();
+
+    filePath = await ipcRenderer.invoke("showSaveDialog", editor.getModel().getValue(), languageToFileExtensionMap[selectedLanguage].language, languageToFileExtensionMap[selectedLanguage].fileExtension);
 });

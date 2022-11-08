@@ -5,10 +5,10 @@ const fs = require('fs');
 
 let mainWindow;
 
-ipcMain.handle("showSaveDialog", async (e, content, fileType, fileExtension) => {
+ipcMain.handle("showSaveDialog", (e, content, fileType, fileExtension) => {
 	const savedDialog = dialog.showSaveDialog({
         title: 'Select the File Path to save',
-        defaultPath: path.join('C:/Users/%USERPROFILE%/*.',fileExtension),
+        defaultPath: path.join('C:/Users/%USERPROFILE%/documents/*.',fileExtension),
         buttonLabel: 'Save',
         filters: [
             {
