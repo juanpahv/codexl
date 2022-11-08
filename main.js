@@ -1,6 +1,7 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+// const {editor} = require('./node_modules/monaco-editor/min/vs/editor/editor.main');
 
 let mainWindow;
 
@@ -8,11 +9,16 @@ function createWindow() {
 	mainWindow = new BrowserWindow({
 		width: 800,
 		height: 600,
-		resizable: false,
-		webPreferences: { worldSafeExecuteJavaScript: true }
+		webPreferences: {
+			nodeIntegration: true,
+			worldSafeExecuteJavaScript: true,
+			enableRemoteModule: true,
+			contextIsolation: false,
+			webSecurity: false
+		}
 	});
-	mainWindow.loadURL(`file://${__dirname}/src/electron-index.html`);
-	
+	mainWindow.loadURL(`file://${__dirname}/electron-index.html`);
+	mainWindow.webContents.openDevTools();
 	mainWindow.on('closed', function () {
 		mainWindow = null;
 	});
@@ -31,3 +37,4 @@ app.on('activate', function () {
 		createWindow();
 	}
 });
+
