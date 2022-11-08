@@ -1,0 +1,16 @@
+{
+  "name": "codexl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./main",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^21.2.2",
+    "monaco-editor": "^0.34.1"
+  }
+}
