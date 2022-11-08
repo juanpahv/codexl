@@ -1,9 +1,40 @@
-const electron = require('electron');
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
-// const {editor} = require('./node_modules/monaco-editor/min/vs/editor/editor.main');
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
+const { ipcMain, dialog } = require("electron");
+const fs = require('fs');
 
 let mainWindow;
+
+ipcMain.handle("showSaveDialog", async (e, message, fileType, fileExtension) => {
+	const savedDialog = dialog.showSaveDialog({
+        title: 'Select the File Path to save',
+        defaultPath: path.join('C:/Users/%USERPROFILE%/*.',fileExtension),
+        buttonLabel: 'Save',
+        filters: [
+            {
+                name: fileType,
+                extensions: [fileExtension]
+            }, ],
+        properties: []
+    }).then(file => {
+        if (!file.canceled) {
+            console.log(file.filePath.toString());
+            fs.writeFile(file.filePath.toString(), 
+                         message, function (err) {
+                if (err) throw err;
+            });
+        }
+		return file.filePath.toString();
+    }).catch(err => {
+        console.log(err)
+    });
+	return savedDialog;
+});
+
+ipcMain.handle("showDialog", async (e, message) => {
+	dialog.showMessageBox(mainWindow, {message});
+});
+
 
 function createWindow() {
 	mainWindow = new BrowserWindow({

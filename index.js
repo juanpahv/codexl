@@ -26,13 +26,38 @@ var editor;
     });
 })();
 
-
+// const electron = require('electron')
+const { ipcRenderer } = require("electron");
+var filePath
+const fs = require('fs');
 const exec = require('child_process').exec;
+// const dialog = electron.remote.dialog;
 
-document.getElementById('buttonCompile').addEventListener('click',()=>{
-    console.log(editor.getModel().getValue());
+// console.log(dialog);
+function execute(command, callback) {
+    exec(command, (error, stdout, stderr) => { 
+        callback(stdout); 
+    });
+};
+
+
+document.getElementById('buttonCompile').addEventListener('click',(e)=>{
+    if(!filePath){
+        ipcRenderer.invoke("showDialog", "save file before compile")
+        return
+    }
+    const filename = filePath.replace(/^.*[\\\/]/, '');
+    console.log(filePath.replace(filename,''));
+    execute('cd '.concat(filePath.replace(filename,'')),(output)=>{});
+    //TODO deharde-code for java
+    execute('ping google.com', (output) => {
+        console.log(output);
+    });
+    execute('java '.concat(filename),(output)=>{
+        console.log(output);
+    });
 });
 
-document.getElementById('buttonSave').addEventListener('click',()=>{
-    
+document.getElementById('SaveFile').addEventListener('click', async (e) => {
+    filePath = await ipcRenderer.invoke("showSaveDialog", editor.getModel().getValue(), 'Java','java');
 });
