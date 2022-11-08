@@ -42,19 +42,16 @@ const languageToFileExtensionMap ={
         language : 'javascript',
         fileExtension : 'js',
         executable : 'node'
-        //TODO initial value
     },
     'HTML' : {
         language : 'html',
         fileExtension : 'html',
         executable : undefined
-        //TODO initial value
     },
     'Python' : {
         language : 'python',
         fileExtension : 'py',
         executable : 'py'
-        //TODO initial value
     }
 };
 
