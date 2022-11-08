@@ -35,8 +35,8 @@ const languageToFileExtensionMap ={
     'Java' : {
         language : 'java',
         fileExtension : 'java',
-        executable : 'java'
-        //TODO initial value
+        executable : 'java',
+        initialValue : 'class NameSpace {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println("Hello, World!");\n\t}\n}'
     },
     'JavaScript' : {
         language : 'javascript',
@@ -48,6 +48,12 @@ const languageToFileExtensionMap ={
         language : 'html',
         fileExtension : 'html',
         executable : undefined
+        //TODO initial value
+    },
+    'Python' : {
+        language : 'python',
+        fileExtension : 'py',
+        executable : 'py'
         //TODO initial value
     }
 };
@@ -70,10 +76,16 @@ function getSelectedLanguage (){
     return document.getElementById('cmbLanguageSelector').options[document.getElementById('cmbLanguageSelector').selectedIndex].value;
 }
 
+document.getElementById('OpenFile').addEventListener('click',async (e)=>{
+    filePath = await ipcRenderer.invoke('showOpenDialog');
+    const content = fs.readFileSync(filePath)
+    editor.getModel().setValue(content.toString());
+});
+
 document.getElementById('cmbLanguageSelector').addEventListener('change',(e)=>{
     const selectedLanguage = getSelectedLanguage();
     filePath = undefined;
-    // editor.setModelLanguage(languageToFileExtensionMap[selectedLanguage].language);
+    monaco.editor.setModelLanguage(editor.getModel(), languageToFileExtensionMap[selectedLanguage].language);
 });
 
 document.getElementById('buttonCompile').addEventListener('click',(e)=>{

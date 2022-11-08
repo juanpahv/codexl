@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			http-equiv="Content-Security-Policy"
+			content="default-src 'none'; script-src file: 'sha256-AcqnkP3xWRYJaQ27hijK3b831+qsxvzEoSYt6PfGrRE='; style-src 'unsafe-inline' file:; font-src file:"
+		/>
+		<title>CodeXL</title>
+		<style>
+			#container {
+				width: 800px;
+				height: 600px;
+				border: 1px solid #ccc;
+			}
+			#output {
+				width: 800px;
+				height: 600px;
+				border: 1px solid red;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="container"></div>
+		<button id="buttonCompile">compile</button>
+		<div id="output"></div>
+	</body>
+
+	<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
+	<script>
+		require.config({ paths: { vs: '../node_modules/monaco-editor/min/vs' } });
+
+		require(['vs/editor/editor.main'], function () {
+			const editor = monaco.editor.create(document.getElementById('container'), {
+				value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
+				language: 'javascript'
+			});
+		});
+	</script>
+	<script src="index.js"></script>
+</html>

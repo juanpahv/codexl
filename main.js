@@ -5,9 +5,37 @@ const fs = require('fs');
 
 let mainWindow;
 
+ipcMain.handle("showOpenDialog",(e) =>{
+	const OpenDialog = dialog.showOpenDialog({
+		title: 'Select file to open',
+		buttonLabel: 'Open',
+		filters :[
+			{
+				name : 'Java',
+				extensions: ['java']
+			},
+			{
+				name : 'JavaScript',
+				extensions: ['js']
+			},
+			{
+				name : 'HTML',
+				extensions: ['html']
+			},
+			{
+				name : 'python',
+				extensions: ['py']
+			},
+		]
+	}).then(file =>{
+		return file.filePaths.toString();
+	});
+	return OpenDialog;
+});
+
 ipcMain.handle("showSaveDialog", (e, content, fileType, fileExtension) => {
 	const savedDialog = dialog.showSaveDialog({
-        title: 'Select the File Path to save',
+        title: 'Select the file path to save',
         defaultPath: path.join('C:/Users/%USERPROFILE%/documents/*.',fileExtension),
         buttonLabel: 'Save',
         filters: [
