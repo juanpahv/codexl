@@ -66,8 +66,9 @@ ipcMain.handle("showDialog", async (e, message) => {
 
 function createWindow() {
 	mainWindow = new BrowserWindow({
-		width: 800,
-		height: 600,
+		width: 1900,
+		height: 1080,
+		center: true,
 		webPreferences: {
 			nodeIntegration: true,
 			worldSafeExecuteJavaScript: true,
@@ -77,7 +78,7 @@ function createWindow() {
 		}
 	});
 	mainWindow.loadURL(`file://${__dirname}/electron-index.html`);
-	mainWindow.webContents.openDevTools();
+	// mainWindow.webContents.openDevTools();
 	mainWindow.on('closed', function () {
 		mainWindow = null;
 	});

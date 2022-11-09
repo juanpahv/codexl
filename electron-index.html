@@ -6,26 +6,40 @@
 			http-equiv="Content-Security-Policy"
 			content="default-src 'none'; script-src file: 'sha256-RtE3AqQ1tBhtcwykhJsEKY7jjCqiGy5yH1mRDwu6gEE='; style-src 'unsafe-inline' file:; font-src file:"
 		/> -->
-		<title>Monaco Editor!</title>
+		<title>CodeXL</title>
+		<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
 	</head>
 	<body>
-		<h1></h1>
-		<div id="container" style="width: 500px; height: 300px; border: 1px solid #ccc"></div>
-		<button id="OpenFile">Open file</button>
-		<select name="language" id="cmbLanguageSelector">
-			<option value="Java" selected>Java</option>
-			<option value="JavaScript">JavaScript</option>
-			<option value="HTML">HTML</option>
-			<option value="Python">Python</option>
-		</select>
-		<button id="buttonCompile">Compile</button>
-  		<input id="openFile" style="visibility:hidden;" type="file">
-
-		<!-- <label for="SaveFile" class="btn">Save file</label>
-		<input id="SaveFile" style="visibility:hidden;" type="file" webkitdirectory = "true" directory/> -->
-		<button id="SaveFile">Save file</button>
-
-		<div id="output" style="width: 500px; height: 300px; border: 1px solid red"></div>
+		<div class="container" style="padding: 20px 0px 10px 0px;">
+			<div class="row">
+				<div class="col-6">
+					<div id="container" style="height: 600px; border: 1px solid #ccc"></div>
+				</div>
+				<div class="col-6">
+					<div id="output" style="height: 600px; border: 1px solid #ccc"></div>
+				</div>
+			</div>
+			<div class="container form-floating py-3">
+				<div class="col-2">
+					<label for="cmbLanguageSelector" style="font-size: 15;">Select language</label>
+					<select name="language" id="cmbLanguageSelector" class="form-select" aria-label="Select label">
+						<option value="Java" selected>Java</option>
+						<option value="JavaScript">JavaScript</option>
+						<option value="HTML">HTML</option>
+						<option value="Python">Python</option>
+					</select>
+				</div>
+			</div>
+			<button id="OpenFile" class="btn btn-primary">
+				Open file
+			</button>
+			<button id="SaveFile" class="btn btn-primary">
+				Save file
+			</button>	
+			<button id="buttonCompile" class="btn btn-success">
+				Compile
+			</button>
+		</div>
 	</body>
 
 	<script src="index.js"></script>
