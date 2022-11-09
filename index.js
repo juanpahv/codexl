@@ -20,7 +20,7 @@ var editor;
     self.module = undefined;
     amdRequire(['vs/editor/editor.main'], function () {
         editor = monaco.editor.create(document.getElementById('container'), {
-            value: [''].join('\n'),
+            value: ['class NameSpace {','\tpublic static void main(String[] args) {','\t\t//Logic here:','\t}','}'.join('\n')],
             language: 'java'
         });
     });
@@ -35,8 +35,7 @@ const languageToFileExtensionMap ={
     'Java' : {
         language : 'java',
         fileExtension : 'java',
-        executable : 'java',
-        initialValue : 'class NameSpace {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println("Hello, World!");\n\t}\n}'
+        executable : 'java'
     },
     'JavaScript' : {
         language : 'javascript',
@@ -83,6 +82,11 @@ document.getElementById('cmbLanguageSelector').addEventListener('change',(e)=>{
     const selectedLanguage = getSelectedLanguage();
     filePath = undefined;
     monaco.editor.setModelLanguage(editor.getModel(), languageToFileExtensionMap[selectedLanguage].language);
+    if(selectedLanguage == 'Java'){
+        editor.getModel().setValue('class NameSpace {\n\tpublic static void main(String[] args) {\n\t\t//Logic here:\n\t}\n}')
+    }else{
+        editor.getModel().setValue('')
+    }
 });
 
 document.getElementById('buttonCompile').addEventListener('click',(e)=>{
