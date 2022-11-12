@@ -20,7 +20,7 @@ var editor;
     self.module = undefined;
     amdRequire(['vs/editor/editor.main'], function () {
         editor = monaco.editor.create(document.getElementById('container'), {
-            value: ['class NameSpace {','\tpublic static void main(String[] args) {','\t\t//Logic here:','\t}','}'.join('\n')],
+            value: ['class NameSpace {','\tpublic static void main(String[] args) {','\t\t//Logic here:','\t}','}'].join('\n'),
             language: 'java'
         });
     });
